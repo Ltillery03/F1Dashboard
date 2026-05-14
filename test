@@ -1,0 +1,18 @@
+import fastf1
+fastf1.Cache.enable_cache('f1_cache')#create cache folder to store data
+
+china_25 = fastf1.get_session(2025, 'China', 'R')
+china_25.load() #loads 25 China data for all driverschina_26 = fastf1.get_session(2026, 'China', 'R')
+lec_25 = china_25.laps.pick_drivers('LEC').pick_quicklaps(1.03) # All of leclerc laps 
+
+
+china_26 = fastf1.get_session(2026, 'China', 'R')
+china_26.load() #loads 26 China data for all drivers
+lec_26 = china_26.laps.pick_drivers('LEC').pick_quicklaps(1.03) # All of leclerc laps 
+
+print(lec_25) #prints leclerc information for China
+print("2026 STARTS HERE")
+print(lec_26) #prints leclerc information for China
+
+print(lec_25.pick_fastest())
+print(lec_26.pick_fastest())
