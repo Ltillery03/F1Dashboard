@@ -1,4 +1,7 @@
 import fastf1
+import fastf1.plotting
+import seaborn as sns
+from matplotlib import pyplot as plt
 fastf1.Cache.enable_cache('f1_cache')#create cache folder to store data
 
 china_25 = fastf1.get_session(2025, 'China', 'R')
@@ -9,10 +12,35 @@ lec_25 = china_25.laps.pick_drivers('LEC') # All of Leclerc laps 2025
 china_26 = fastf1.get_session(2026, 'China', 'R')
 china_26.load() #loads 26 China data for all drivers
 lec_26 = china_26.laps.pick_drivers('LEC') # All of Leclerc laps 2026
+#print(lec_25) #prints leclerc information for China
+#print("2026 STARTS HERE")
+#print(lec_26) #prints leclerc information for China
 
-print(lec_25) #prints leclerc information for China
-print("2026 STARTS HERE")
-print(lec_26) #prints leclerc information for China
-
-print(lec_25.pick_fastest())
+#print(lec_25.pick_fastest())
 print(lec_26.pick_fastest())
+
+#Graph Creation
+fastf1.plotting.setup_mpl(mp1_timedelta_support=True, color_scheme='fastf1')
+
+fig, ax = plt.subplots(figsize=(8, 8))
+
+sns.scatterplot(data=lec_26,
+                x="LapNumber",
+                y="LapTime",
+                ax=ax,
+                hue="Compound",
+                palette=fastf1.plotting.get_compound_mapping(session=china_26),
+                s=80,
+                linewidth=0,
+                legend='auto')
+ax.set_xlabel("Lap Number")
+ax.set_ylabel("Lap Time")
+
+ax.invert_yaxis() #Lap times are better the faster they are, the slower the higher you want to go
+plt.suptitle("Leclerc Laps 2026 Chinese GP") #Title at top of graph
+#Add gridlines
+plt.grid(color='w', which='major', axis='both')
+sns.despine(left=True, bottom=True)
+
+plt.tight_layout()
+plt.show()
