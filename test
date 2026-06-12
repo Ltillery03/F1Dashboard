@@ -4,29 +4,29 @@ import seaborn as sns
 from matplotlib import pyplot as plt
 fastf1.Cache.enable_cache('f1_cache')#create cache folder to store data
 
-china_25 = fastf1.get_session(2025, 'China', 'R')
-china_25.load() #loads 25 China data for all driverschina_26 = fastf1.get_session(2026, 'China', 'R')
-lec_25 = china_25.laps.pick_drivers('LEC') # All of Leclerc laps 2025
-
-
 china_26 = fastf1.get_session(2026, 'China', 'R')
 china_26.load() #loads 26 China data for all drivers
 lec_26 = china_26.laps.pick_drivers('LEC') # All of Leclerc laps 2026
-#print(lec_25) #prints leclerc information for China
-#print("2026 STARTS HERE")
-#print(lec_26) #prints leclerc information for China
+#Manually getting laps when LEC entered/exited the pitlane
+in_laps = lec_26[lec_26["PitInTime"].notna()]["LapNumber"].values
+out_laps = lec_26[lec_26["PitOutTime"].notna()]["LapNumber"].values
 
-#print(lec_25.pick_fastest())
-print(lec_26.pick_fastest())
+#exclude the above from laps initially shown on the plot
+exclude = list(in_laps) + list(out_laps)
+race_laps = lec_26[~lec_26["LapNumber"].isin(exclude)]
+race_laps['LapTimeSeconds'] = race_laps['LapTime'].dt.total_seconds()
+
+#separate the race by stints
+stint_1 = race_laps[race_laps["LapNumber"] < in_laps[0]]
+stint_2 = race_laps[race_laps["LapNumber"] > out_laps[0]]
 
 #Graph Creation
-fastf1.plotting.setup_mpl(mp1_timedelta_support=True, color_scheme='fastf1')
-
+fastf1.plotting.setup_mpl(mpl_timedelta_support=True, color_scheme='fastf1')
 fig, ax = plt.subplots(figsize=(8, 8))
 
-sns.scatterplot(data=lec_26,
+sns.scatterplot(data=race_laps,
                 x="LapNumber",
-                y="LapTime",
+                y="LapTimeSeconds",
                 ax=ax,
                 hue="Compound",
                 palette=fastf1.plotting.get_compound_mapping(session=china_26),
@@ -36,11 +36,28 @@ sns.scatterplot(data=lec_26,
 ax.set_xlabel("Lap Number")
 ax.set_ylabel("Lap Time")
 
-ax.invert_yaxis() #Lap times are better the faster they are, the slower the higher you want to go
+#ax.invert_yaxis() #Lap times are better the faster they are, the slower the higher you want to go
+
+#plot the pit laps
+plt.axvline(x=out_laps[0], color="green", linestyle="--", linewidth=1.2, alpha=0.7, label="Pit Stop")
+plt.axvline(x=in_laps[0], color="red", linestyle="--", linewidth=1.2, alpha=0.7, label="Pit In") 
+
+
+#create trend lines for stints
+
+for stint in [stint_1, stint_2]:
+    stint_sorted = stint.sort_values("LapNumber")
+    rolling = stint_sorted["LapTime"].dt.total_seconds().rolling(window=3, center=True).mean()
+    ax.plot(stint_sorted["LapNumber"], rolling, color="cyan", linewidth=1.5, alpha=0.6)
+
+
 plt.suptitle("Leclerc Laps 2026 Chinese GP") #Title at top of graph
 #Add gridlines
-plt.grid(color='w', which='major', axis='both')
+plt.grid(color='w', which='major', axis='y')
 sns.despine(left=True, bottom=True)
 
+#ax.set_xticks(range(1, int(lec_26["LapNumber"].max()) + 1)) #makes it show every lap number
 plt.tight_layout()
 plt.show()
+
+#NOTE MISSING LAPS 10, 11, 12
