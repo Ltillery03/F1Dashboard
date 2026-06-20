@@ -34,7 +34,7 @@ sns.scatterplot(data=race_laps,
                 linewidth=0,
                 legend='auto')
 ax.set_xlabel("Lap Number")
-ax.set_ylabel("Lap Time")
+ax.set_ylabel("Lap Time(Seconds")
 
 #ax.invert_yaxis() #Lap times are better the faster they are, the slower the higher you want to go
 
