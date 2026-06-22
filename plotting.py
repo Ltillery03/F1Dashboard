@@ -1,5 +1,6 @@
 #This file plots the data taken from the data.py file
 import fastf1
+import fastf1.plotting
 import data
 import seaborn as sns
 from matplotlib import pyplot as plt
@@ -31,4 +32,3 @@ def plot_driver_laps(laps, pit_in_laps, pit_out_laps, driver, year, gp, session)
     ax.set_ylabel("Lap Time (s)")
 
     return fig
-

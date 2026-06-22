@@ -10,7 +10,8 @@ def get_session_drivers(session):
     return session.results[['DriverNumber','FullName','Abbreviation']] #returns list of drivers in a given session 
 
 def get_driver_laps(session, driver):
-    laps = session.laps.pickdrivers(driver)
+    laps = session.laps.pick_drivers(driver)
+    laps['LapTimeSeconds'] = laps['LapTime'].dt.total_seconds()
     return laps #returns laps of a given driver
 
 def get_driver_stints(laps):
