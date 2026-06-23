@@ -1,8 +1,11 @@
 #This file combines the methods from data and plotting in order to display the data online IOT be displayed via streamlit
 import fastf1
+import os
 import streamlit as st
 from data import load_session, get_driver_laps, get_pit_laps
 from plotting import plot_driver_laps
+
+os.makedirs("f1_cache", exist_ok=True)
 fastf1.Cache.enable_cache('f1_cache')
 
 st.set_page_config(page_title="F1 Dashboard", layout="wide")
