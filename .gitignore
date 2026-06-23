@@ -1,0 +1,5 @@
+__pycache__/
+.vscode/
+f1_cache/
+test_data.py
+test_plotting.py
