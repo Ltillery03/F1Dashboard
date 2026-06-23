@@ -6,6 +6,7 @@ import seaborn as sns
 from matplotlib import pyplot as plt
 
 def plot_driver_laps(laps, pit_in_laps, pit_out_laps, driver, year, gp, session):
+    session.load()
     color_compound = fastf1.plotting.get_compound_mapping(session=session)
     race_laps = laps[laps['PitInTime'].isna() & laps['PitOutTime'].isna()]
 

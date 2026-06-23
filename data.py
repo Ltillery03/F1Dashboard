@@ -7,9 +7,11 @@ def load_session(year, gp, session_type):
     return session
 
 def get_session_drivers(session):
+    session.load()
     return session.results[['DriverNumber','FullName','Abbreviation']] #returns list of drivers in a given session 
 
 def get_driver_laps(session, driver):
+    session.load()
     laps = session.laps.pick_drivers(driver)
     laps['LapTimeSeconds'] = laps['LapTime'].dt.total_seconds()
     return laps #returns laps of a given driver
