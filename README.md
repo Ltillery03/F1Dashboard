@@ -28,9 +28,11 @@ TECH STACK
 RUNNING LOCALLY
 
 1. Clone Repo and install dependencies
-pip install -r requirements.txt
+
+   pip install -r requirements.txt
 2. Run the app
-streamlit run app.py
+   
+   streamlit run app.py
 3. Select year, Grand Prix, session, and driver, then click Generate Plot
     *Note the first load for any session will be slower since FastF1 downloads and caches timing data the first time it's requested
 
