@@ -1,7 +1,7 @@
 # F1 Snapshot Dashboard
 Interactive Streamlit dashboard for exploring Formula 1 race data. Contains lap times, tire strategy, and pit stops for the selected driver in a given session
 
-[INSERT IMAGE HERE]
+[f1db_example.pdf](https://github.com/user-attachments/files/29469348/f1db_example.pdf)
 
 WHAT IT DOES
 
