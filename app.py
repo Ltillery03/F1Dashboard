@@ -17,9 +17,9 @@ col1, col2, col3, col4 = st.columns(4)
 with col1:
     year = st.selectbox("Year", options=[2023, 2024, 2025])
 with col2:
-    gp = st.selectbox("Grand Prix", options=["Monza", "Spa", "Silverstone"])
+    gp = st.selectbox("Grand Prix", options=["Monza", "Spa-Francorchamps", "Silverstone"])
 with col3:
-    session_type = st.selectbox("Session", options=["FP1", "FP2", "FP3", "Q", "R"])
+    session_type = st.selectbox("Session", options=["Q", "R"])
 with col4:
     driver = st.selectbox("Driver", options=["LEC", "VER", "HAM", "NOR", "PIA"])
 
